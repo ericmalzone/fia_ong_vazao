@@ -1,0 +1,71 @@
+-------------- Subindo agent do flume para put do arquivo de chuvas no hdfs --------------
+
+flume-ng agent --conf conf --conf-file chuvas_flume.conf --name a1 -Dflume.root.logger = INFO, console
+
+-----------------------------*************------------------------------------------------
+
+-------------- Create arquivo chuvas_flume.conf  ----------------------------------------
+
+
+
+a1.sources = r1
+a1.sinks = k1
+a1.channels = c1
+
+a1.sources.r1.type = spooldir
+a1.sources.r1.spoolDir = /home/labdata/flume/chuvas
+a1.sources.r1.channels = c1
+a1.sources.r1.fileHeader = false
+
+a1.channels.c1.type = memory
+a1.channels.c1.capacity = 100000
+a1.channels.c1.transactionCapacity = 10000
+
+a1.sinks.k1.channel = c1
+a1.sinks.k1.type = hdfs
+a1.sinks.k1.hdfs.path = /user/hive/warehouse/dispersores/raw/chuvas
+a1.sinks.k1.hdfs.fileType = DataStream
+a1.sinks.k1.hdfs.writeFormat = Text
+a1.sinks.k1.hdfs.batchSize = 100000
+a1.sinks.k1.hdfs.rollSize = 0
+a1.sinks.k1.hdfs.rollCount = 1000000
+a1.sinks.k1.hdfs.rollInterval = 0
+
+
+
+--------------------------------------**************************---------------------------------
+
+
+-------------- Subindo agent do flume para put do arquivo de vazoes no hdfs --------------
+
+flume-ng agent --conf conf --conf-file vazoes_flume.conf --name a1 -Dflume.root.logger = INFO, console
+
+-----------------------------*************------------------------------------------------
+
+-------------- Create arquivo chuvas_flume.conf  ----------------------------------------
+
+a1.sources = r1
+a1.sinks = k1
+a1.channels = c1
+
+a1.sources.r1.type = spooldir
+a1.sources.r1.spoolDir = /home/labdata/flume/chuvas
+a1.sources.r1.channels = c1
+a1.sources.r1.fileHeader = false
+
+a1.channels.c1.type = memory
+a1.channels.c1.capacity = 100000
+a1.channels.c1.transactionCapacity = 10000
+
+a1.sinks.k1.channel = c1
+a1.sinks.k1.type = hdfs
+a1.sinks.k1.hdfs.path = /user/hive/warehouse/dispersores/raw/chuvas
+a1.sinks.k1.hdfs.fileType = DataStream
+a1.sinks.k1.hdfs.writeFormat = Text
+a1.sinks.k1.hdfs.batchSize = 100000
+a1.sinks.k1.hdfs.rollSize = 0
+a1.sinks.k1.hdfs.rollCount = 1000000
+a1.sinks.k1.hdfs.rollInterval = 0
+
+-------------------------------------------**********************-------------------------------------
+
